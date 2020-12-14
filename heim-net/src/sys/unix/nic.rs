@@ -17,6 +17,11 @@ impl Nic {
         self.0.interface_name.as_str()
     }
 
+    pub fn index(&self) -> Option<u32> {
+        // TODO: this index is not available from nix::getifaddrs
+        None
+    }
+
     pub fn address(&self) -> Address {
         self.0
             .address

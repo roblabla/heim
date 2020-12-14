@@ -7,12 +7,17 @@ use super::bindings::{if_msghdr2, net_pf_route};
 
 pub struct IoCounters {
     name: String,
+    index: u32,
     data: if_msghdr2,
 }
 
 impl IoCounters {
     pub fn interface(&self) -> &str {
         self.name.as_str()
+    }
+
+    pub fn index(&self) -> Option<u32> {
+        Some(self.index)
     }
 
     pub fn bytes_sent(&self) -> Information {
@@ -66,7 +71,7 @@ pub async fn io_counters() -> Result<impl Stream<Item = Result<IoCounters>>> {
         let first_nul = name.iter().position(|c| *c == b'\0').unwrap_or(0);
         let name = String::from_utf8_lossy(&name[..first_nul]).to_string();
 
-        Ok(IoCounters { name, data: msg })
+        Ok(IoCounters { name, index: msg.ifm_index.into(), data: msg })
     });
 
     Ok(stream::iter(interfaces))
