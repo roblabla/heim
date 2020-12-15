@@ -23,6 +23,7 @@ nix = "0.17.0"
 
 [target.'cfg(windows)'.dependencies]
 winapi = { version = "0.3", features = ["iphlpapi"]}
+widestring = "0.4"
 
 [dev-dependencies]
 heim-derive = { version = "0.1.0-beta.1", path = "../heim-derive" }
