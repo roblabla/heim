@@ -97,7 +97,7 @@ impl fmt::Debug for Nic {
 /// [Network Interface Cards]: struct.Nic.html
 ///
 /// Depending on your platform, NICs that have multiple addresses may be enumerated several times, with a different [`address`](Nic::address) every time.
-pub async fn nic() -> Result<impl Stream<Item = Result<Nic>>> {
+pub async fn nic() -> Result<impl Stream<Item = Result<Nic>> + Send + Sync> {
     let inner = sys::nic().await?;
 
     Ok(inner.map_ok(Into::into))
