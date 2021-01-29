@@ -162,7 +162,7 @@ impl Nic {
     }
 }
 
-pub async fn nic() -> Result<impl Stream<Item = Result<Nic>>> {
+pub async fn nic() -> Result<impl Stream<Item = Result<Nic>> + Send + Sync> {
     let mut results = Vec::new();
 
     // Step 1 - get the size of the routing infos
@@ -263,8 +263,6 @@ pub async fn nic() -> Result<impl Stream<Item = Result<Nic>>> {
 
     Ok(stream::iter(results))
 }
-
-
 
 #[cfg(test)]
 mod test {
